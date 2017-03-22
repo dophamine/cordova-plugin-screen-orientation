@@ -17,9 +17,9 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
-package net.yoik.cordova.plugins.screenorientation;
+package cordova.plugins.screenorientation;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -31,7 +31,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 
-public class YoikScreenOrientation extends CordovaPlugin {
+public class CDVOrientation extends CordovaPlugin {
 
     private static final String TAG = "YoikScreenOrientation";
 
@@ -39,7 +39,7 @@ public class YoikScreenOrientation extends CordovaPlugin {
      * Screen Orientation Constants
      */
 
-    private static final String UNLOCKED = "unlocked";
+    private static final String ANY = "any";
     private static final String PORTRAIT_PRIMARY = "portrait-primary";
     private static final String PORTRAIT_SECONDARY = "portrait-secondary";
     private static final String LANDSCAPE_PRIMARY = "landscape-primary";
@@ -66,36 +66,33 @@ public class YoikScreenOrientation extends CordovaPlugin {
 
         String action = args.optString(0);
 
-        if (action.equals("set")) {
 
-            String orientation = args.optString(1);
 
-            Log.d(TAG, "Requested ScreenOrientation: " + orientation);
+        String orientation = args.optString(1);
 
-            Activity activity = cordova.getActivity();
+        Log.d(TAG, "Requested ScreenOrientation: " + orientation);
 
-            if (orientation.equals(UNLOCKED)) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-            } else if (orientation.equals(LANDSCAPE_PRIMARY)) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else if (orientation.equals(PORTRAIT_PRIMARY)) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else if (orientation.equals(LANDSCAPE)) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            } else if (orientation.equals(PORTRAIT)) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            } else if (orientation.equals(LANDSCAPE_SECONDARY)) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-            } else if (orientation.equals(PORTRAIT_SECONDARY)) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
-            }
+        Activity activity = cordova.getActivity();
 
-            callbackContext.success();
-            return true;
-
-        } else {
-            callbackContext.error("ScreenOrientation not recognised");
-            return false;
+        if (orientation.equals(ANY)) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        } else if (orientation.equals(LANDSCAPE_PRIMARY)) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else if (orientation.equals(PORTRAIT_PRIMARY)) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else if (orientation.equals(LANDSCAPE)) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        } else if (orientation.equals(PORTRAIT)) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        } else if (orientation.equals(LANDSCAPE_SECONDARY)) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+        } else if (orientation.equals(PORTRAIT_SECONDARY)) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
         }
+
+        callbackContext.success();
+        return true;
+
+
     }
 }
